@@ -1,0 +1,10 @@
+package constants;
+
+public class Utill_Constants {
+	
+	public static String Login_ID;
+	public static String Password;
+	public static String Browser;
+	public static String Test_URL;
+
+}
