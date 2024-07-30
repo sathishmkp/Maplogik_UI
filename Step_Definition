@@ -1,0 +1,151 @@
+package stepDefinitions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+
+import ExcelRead.ExcelReader;
+import constants.Utill_Constants;
+import driverManage.Webdriv_Mng;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import ml_PageObjects.LoginPgObjects;
+import ml_PageObjects.PostInternObj;
+
+public class Maplogik_StepDef {
+	private static final Logger LOGGER = LogManager.getFormatterLogger(Maplogik_StepDef.class);
+	
+	@Given("user is on login page")
+	public void user_is_on_login_page() {
+		
+		Webdriv_Mng.getDriver().get(Utill_Constants.Test_URL);
+		
+    LOGGER.info("user is on login page");
+	  
+	}
+
+	@When("user enters the valid Email and password")
+	public void user_enters_the_valid_email_and_password() {
+		
+		LoginPgObjects.getInstance().enterLoginId(Utill_Constants.Login_ID);
+		LoginPgObjects.getInstance().enterPassword(Utill_Constants.Password);
+	 
+		 LOGGER.info("user enters the valid Email and password");
+	}
+
+	@Then("clicks login button the user should be navigate to dashboard")
+	public void clicks_login_button_the_user_should_be_navigate_to_dashboard() {
+		
+		LoginPgObjects.getInstance().clickLoginButton();
+		
+		 LOGGER.info("clicks login button the user should be navigate to dashboard");
+	   
+	}
+
+	@Given("user clicks the internship link on the menu frame")
+	public void user_clicks_the_internship_link_on_the_menu_frame() {
+		
+		LoginPgObjects.getInstance().clickInternshipButton();
+		
+		 LOGGER.info("user clicks the internship link on the menu frame");
+	    
+	}
+
+	@When("user clicks Post Internship button he will naviagate to details filling page")
+	public void user_clicks_post_internship_button_he_will_naviagate_to_details_filling_page() {
+		LoginPgObjects.getInstance().clickPostInternButton();
+		
+		 LOGGER.info("user clicks Post Internship button he will naviagate to details filling page");
+	    
+	}
+
+
+	@When("enters the department details")
+	public void enters_the_department_details() {
+		
+		PostInternObj.getInstance().enterDepartment();
+		
+		 LOGGER.info("enters the department details");
+	    
+	}
+
+	@When("enters the academic percentage")
+	public void enters_the_academic_percentage() {
+		
+		PostInternObj.getInstance().enterPercentage();
+		
+		 LOGGER.info("enters the academic percentage");
+		
+	}
+
+	@When("provides the location")
+	public void provides_the_location() {
+		
+		PostInternObj.getInstance().enterLocation();
+		 LOGGER.info("provides the location");
+	    
+	}
+	
+	@When("enters tittle of internship and internship discription from given sheetname\"Sheet1\" and rownumber {int}")
+	public void enters_tittle_of_internship_and_internship_discription_from_given_sheetname_sheet1_and_rownumber(Integer RowNumber) throws InvalidFormatException, IOException {
+		ExcelReader reader = new ExcelReader();
+		List<Map<String,String>> testData =
+		reader.getData("C:\\Users\\sathi\\eclipse-workspace\\AdmCucumberProject\\src\\test\\resources\\InternData\\postdata.xlsx", "Sheet1");
+	String title=testData.get(RowNumber).get("Title of internship");
+	String description =testData.get(RowNumber).get("Internship Description");
+	
+		PostInternObj.enterTitleAndDesc(title,description);
+		 LOGGER.info("enters tittle of internship and internship discription");
+	}
+	
+	
+	@When("clicks the calendar and enters the start date")
+	public void clicks_the_calendar_and_enters_the_start_date() {
+		PostInternObj.getInstance().enterStartDate();
+		 LOGGER.info("clicks the calendar and enters the start date");
+	   
+	}
+
+	@When("user enters the number of vacancies")
+	public void user_enters_the_number_of_vacancies() {
+		PostInternObj.getInstance().enterVacancies();
+		
+		 LOGGER.info("user enters the number of vacancies");
+	   
+	}
+
+	@When("user enters the duration")
+	public void user_enters_the_duration() {
+		PostInternObj.getInstance().enterDuration();
+		 LOGGER.info("user enters the duration");
+	  
+	}
+
+	@When("clicks the post internship button")
+	public void clicks_the_post_internship_button() {
+		
+		PostInternObj.getInstance().clickPostButton();
+		
+		 LOGGER.info("clicks the post internship button");
+	   
+	}
+	
+	@Then("it shows a successful message\"Internship Successfully posted\"")
+	public void it_shows_a_successful_message_internship_successfully_posted() {
+		
+		String actualMessage = PostInternObj.getInstance().copySuccessfullText();
+		
+		if(actualMessage.equalsIgnoreCase("Internship Successfully posted")) {
+		 LOGGER.info("the internship posting should be successfully submitted");
+		 
+		}
+	}
+	
+
+
+}
