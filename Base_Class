@@ -1,0 +1,55 @@
+package stepDefinitions;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+
+import driverManage.Webdriv_Mng;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
+import utilities_Cls.Common_Utills;
+
+public class BaseCls {
+
+	
+	private static final Logger LOGGER = LogManager.getFormatterLogger(BaseCls.class);
+	
+    @Before
+	public void beforeScenario() {
+    LOGGER.info("Execution Intiated");
+
+		try {
+			 LOGGER.info("Initiating the common utills");
+			Common_Utills common_Utills =new Common_Utills();
+			common_Utills.fileReader();
+			
+			LOGGER.info("Checking driver is NULL or NOT");
+			if(Webdriv_Mng.getDriver()==null) {
+				
+			LOGGER.info("Driver is NULL.Intiation of Browser Started");
+			Webdriv_Mng.launchBrowser();
+			common_Utills.initElements();
+			
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+		}
+
+	}
+    @After(order = 1)
+	public void attachScreenshot(Scenario scenario) {
+		if(scenario.isFailed()) {
+			
+		byte[] screenshotTaken = ((TakesScreenshot)Webdriv_Mng.getDriver()).getScreenshotAs(OutputType.BYTES);
+			
+		scenario.attach(screenshotTaken, "image/png", "errorscreen");
+		}
+		
+	}
+
+
+
+		}
