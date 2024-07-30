@@ -1,0 +1,119 @@
+package ml_PageObjects;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+public class PostInternObj {
+	
+	private static PostInternObj PostInstance;
+
+	private PostInternObj() {
+
+	}
+	public static  PostInternObj getInstance() {
+
+		if (PostInstance==null) {
+
+			PostInstance = new PostInternObj();
+
+		}
+
+		return PostInstance;
+	}
+	
+	@FindBy(xpath="//*[@id=\'myForm\']/div[1]/div[3]/fieldset/span/span[1]/span/ul")
+	private WebElement department;
+	
+	@FindBy(xpath="//li[text()='B.E.Biotech']")
+	private WebElement department2;
+	
+	@FindBy(xpath="//*[@id=\'myForm\']/div[1]/div[6]/fieldset/span/span[1]/span/ul/li/input")
+	private WebElement percentage;
+	
+	@FindBy(xpath="//li[text()='40-60%']")
+	private WebElement percentage2;
+	
+	@FindBy(xpath="//*[@id=\"myForm\"]/div[1]/div[7]/fieldset/span/span[1]/span")
+	private WebElement location;
+	
+	@FindBy(xpath="//li[text()='Chennai']")
+	private WebElement location2;
+	
+	@FindBy(id="title")
+	private static WebElement internTitle;
+	
+	@FindBy(id="description")
+	private static WebElement internDescription;
+	
+	@FindBy(id="start_date")
+	private WebElement startDate;
+	
+	@FindBy(id="intern_reg")
+	private WebElement vacancies;
+	
+	@FindBy(id="duration")
+	private WebElement internDuration;
+	
+	@FindBy(xpath="//button[@type='submit']")
+	private WebElement postButton;
+	@FindBy(id="swal2-title")
+	private WebElement successfull;
+	
+	
+
+	public void enterDepartment() {
+		
+	
+		department.click();
+		department2.click();
+		
+	}
+	
+	public void enterPercentage() {
+		percentage.click();
+		percentage2.click();
+		
+	}
+	
+	public void enterLocation() {
+		location.click();
+		location2.click();
+		
+	}
+	
+	public static void enterTitleAndDesc(String title,String description) {
+		
+		try {
+			internTitle.sendKeys(title);
+		} catch (Exception e) {
+		
+			e.printStackTrace();
+		}
+		internDescription.sendKeys(description);
+	}
+	
+	public void enterStartDate() {
+		
+		startDate.sendKeys("12-02-2024");
+	}
+	
+	public void enterVacancies() {
+		
+		vacancies.sendKeys("1");
+		
+	}
+	
+	public void enterDuration() {
+		
+		internDuration.sendKeys("6");
+	}
+	public void clickPostButton() {
+		
+		postButton.click();
+	}
+	
+	public String copySuccessfullText() {
+		
+		return successfull.getText();
+	}
+}
