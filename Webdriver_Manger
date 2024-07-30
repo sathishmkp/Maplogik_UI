@@ -1,0 +1,55 @@
+package driverManage;
+
+import java.time.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import constants.Utill_Constants;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Webdriv_Mng {
+	private static final Logger LOGGER = LogManager.getFormatterLogger(Webdriv_Mng.class);
+	
+	public static WebDriver driver;
+
+	public static void launchBrowser() {
+
+		try {
+
+			switch (Utill_Constants.Browser) {
+			case "chrome":
+				WebDriverManager.chromedriver().setup();
+				LOGGER.info("Launching"+Utill_Constants.Browser);
+				driver = new ChromeDriver();
+				break;			   
+			case "firefox":
+				WebDriverManager.firefoxdriver().setup();
+				LOGGER.info("Launching"+Utill_Constants.Browser);
+				driver= new FirefoxDriver();
+				break;
+
+				default:WebDriverManager.chromedriver().setup();
+				LOGGER.info("Launching"+Utill_Constants.Browser);
+				driver = new ChromeDriver();
+					break;
+				}
+
+			} catch (Exception e) {
+
+				e.printStackTrace();
+
+			}
+            driver.manage().window().maximize();
+        	LOGGER.info("Maximized Windows");
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+}
+
+	
+	
+	public static WebDriver getDriver() {
+		return driver;
+	}
+}
