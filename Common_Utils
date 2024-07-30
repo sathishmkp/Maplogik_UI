@@ -1,0 +1,50 @@
+package utilities_Cls;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.openqa.selenium.support.PageFactory;
+
+import constants.Utill_Constants;
+import driverManage.Webdriv_Mng;
+import ml_PageObjects.LoginPgObjects;
+import ml_PageObjects.PostInternObj;
+
+public  class Common_Utills {
+	
+	FileReader reader;
+	Properties properties;
+	
+	public  void fileReader(){
+		 try {
+		        reader = new FileReader(System.getProperty("user.dir")+"\\src\\test\\resources\\ConfigureFiles\\config.properties");
+		        properties = new Properties();
+		        properties.load(reader);
+		        
+		    } catch (FileNotFoundException e) {
+		        e.printStackTrace();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		        
+		    } 
+		 
+		
+			Utill_Constants.Login_ID=properties.getProperty("Login_ID");
+			Utill_Constants.Password=properties.getProperty("Password");
+			Utill_Constants.Browser=properties.getProperty("Browser");
+			Utill_Constants.Test_URL=properties.getProperty("Test_URL");
+	
+	}
+
+	public void initElements() {
+		
+		PageFactory.initElements(Webdriv_Mng.getDriver(), LoginPgObjects.getInstance());
+		PageFactory.initElements(Webdriv_Mng.getDriver(), PostInternObj.getInstance());
+		
+		
+	}
+
+	
+}
