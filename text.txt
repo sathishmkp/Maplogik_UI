@@ -1,2 +1,2 @@
 this is an newly committed file
-git 
+git pull options working or not
